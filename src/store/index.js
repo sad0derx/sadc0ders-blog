@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as firebase from 'firebase'
 
 Vue.use(Vuex)
 
@@ -21,14 +22,14 @@ export const store = new Vuex.Store({
         description: 'This is some freaking test lol'
       }
     ],
-    user: {
-      id: 'bv3uzrb4vuzv',
-      likes: ['fiouub2huozb']
-    }
+    user: null
   },
   mutations: {
     createPost (state, payload) {
       state.loadedPosts.push(payload)
+    },
+    setUser (state, payload) {
+      state.user = payload
     }
   },
   actions: {
@@ -43,6 +44,41 @@ export const store = new Vuex.Store({
       }
       // Reach out to firebase and store it
       commit('createPost', post)
+    },
+
+    signUserUp ({commit}, payload) {
+      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+      .then(
+        user => {
+          const newUser = {
+            id: user.uid,
+            likes: []
+          }
+          commit('setUser', newUser)
+        }
+      )
+      .catch(
+        error => {
+          console.log(error)
+        }
+      )
+    },
+    signUserIn ({commit}, payload) {
+      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+      .then(
+        user => {
+          const newUser = {
+            id: user.uid,
+            likes: []
+          }
+          commit('setUser', newUser)
+        }
+      )
+      .catch(
+        error => {
+          console.log(error)
+        }
+      )
     }
   },
   getters: {
@@ -60,6 +96,9 @@ export const store = new Vuex.Store({
           return post.id === postId
         })
       }
+    },
+    user (state) {
+      return state.user
     }
   }
 })

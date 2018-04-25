@@ -35,16 +35,30 @@
 export default {
   data () {
     return {
-      sideNav: false,
-
-      menuItems: [
+      sideNav: false
+    }
+  },
+  computed: {
+    menuItems () {
+      let menuItems = [
         { icon: '', title: 'Home', link: '/' },
         { icon: '', title: 'All Posts', link: '/posts' },
         { icon: '', title: 'About', link: '/about' },
-        { icon: '', title: 'Profile', link: '/profile' },
         { icon: '', title: 'Sign In', link: '/signin' },
         { icon: '', title: 'Sign Up', link: '/signup' }
       ]
+      if (this.userIsAuthenticated) {
+        menuItems = [
+          { icon: '', title: 'Home', link: '/' },
+          { icon: '', title: 'All Posts', link: '/posts' },
+          { icon: '', title: 'About', link: '/about' },
+          { icon: '', title: 'Profile', link: '/profile' }
+        ]
+      }
+      return menuItems
+    },
+    userIsAuthenticated () {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
     }
   },
   name: 'App'
