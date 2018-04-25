@@ -9,9 +9,9 @@
           <v-card-media :src="post.imageUrl" height="400px"></v-card-media>
           <v-card-text>
             <div>
-              <div class="info--text mb-2">{{ post.date }} - What's going on in the World lul :D</div>
+              <div class="info--text mb-2">{{ post.date | date }} - {{ post.location }}</div>
               <hr>
-              <div class="mt-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis natus illum beatae. Molestiae corrupti veniam obcaecati nesciunt illo fugiat dolorum neque ducimus tenetur deleniti. Temporibus obcaecati itaque illum sapiente ducimus! Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore vero, ipsum eligendi quod nesciunt laborum et, similique quos veniam at ab officia est qui? Esse nemo ad voluptas cumque inventore?</div>
+              <div class="mt-2">{{ post.description }}</div>
             </div>
           </v-card-text>
           <v-card-actions>

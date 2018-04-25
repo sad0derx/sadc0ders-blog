@@ -7,7 +7,7 @@
       </v-flex>
 
       <v-flex xs12 sm6 class="text-xs-center text-sm-left">
-        <v-btn large router to="/createposts" class="primary">Create Posts</v-btn>
+        <v-btn large router to="/posts/new" class="primary">Create Posts</v-btn>
       </v-flex>
 
     </v-layout>
