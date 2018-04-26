@@ -1,5 +1,11 @@
 <template>
-  <div>
-      <h1>sdfjpwiuh4239</h1>
-  </div>
+  <v-container>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 offset-sm3>
+        <v-card>
+          
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
