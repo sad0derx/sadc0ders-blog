@@ -27,6 +27,9 @@ export const store = new Vuex.Store({
     error: null
   },
   mutations: {
+    setLoadedPosts (state, payload) {
+      state.loadedPosts = payload
+    },
     createPost (state, payload) {
       state.loadedPosts.push(payload)
     },
@@ -44,19 +47,62 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    createPost ({commit}, payload) {
+    loadPosts ({commit}) {
+      commit('setLoading', true)
+      firebase.database().ref('posts').once('value')
+      .then((data) => {
+        const posts = []
+        const obj = data.val()
+        for (let key in obj) {
+          posts.push({
+            id: key,
+            title: obj[key].title,
+            description: obj[key].description,
+            imageUrl: obj[key].imageUrl,
+            date: obj[key].date,
+            creatorId: obj[key].creatorId
+          })
+        }
+        commit('setLoadedPosts', posts)
+        commit('setLoading', false)
+      })
+      .catch((error) => {
+        console.log(error)
+        commit('setLoading', false)
+      })
+    },
+    createPost ({commit, getters}, payload) {
       const post = {
         title: payload.title,
         location: payload.location,
-        imageUrl: payload.imageUrl,
         description: payload.description,
-        date: payload.date,
-        id: 'vf432uvdad'
+        date: payload.date.toISOString(),
+        creatorId: getters.user.id
       }
-      // Reach out to firebase and store it
-      commit('createPost', post)
+      let imageUrl
+      let key
+      firebase.database().ref('posts').push(post)
+      .then((data) => {
+        key = data.key
+        // commit('createPost', {
+        //   ...post,
+        //   id: key
+        // })
+        return key
+      })
+      .then(key => {
+        const filename = payload.image.name
+        const ex = filename.slice(filename.lastIndexOf('.'))
+        firebase.storage().ref('posts' + key + '.' + ext)
+      })
+      .then(fileData => {
+        imageUrl = fileData.metadata.downloadURLs[0]
+        return firebase.database()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     },
-
     signUserUp ({commit}, payload) {
       commit('setLoading', true)
       commit('clearError')
@@ -100,6 +146,13 @@ export const store = new Vuex.Store({
           console.log(error)
         }
       )
+    },
+    autoSignIn ({commit}, payload) {
+      commit('setUser', {id: payload.uid, likes: []})
+    },
+    logout ({commit}) {
+      firebase.auth().signOut()
+      commit('setUser', null)
     },
     clearError ({commit}) {
       commit('clearError')

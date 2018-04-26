@@ -8,6 +8,7 @@ import Profile from '@/components/User/Profile'
 import SignIn from '@/components/User/SignIn'
 import SignUp from '@/components/User/SignUp'
 import About from '@/components/About'
+import AuthGuard from './auth-guard'
 
 Vue.use(Router)
 
@@ -26,7 +27,8 @@ export default new Router({
     {
       path: '/posts/new',
       name: 'CreatePost',
-      component: CreatePost
+      component: CreatePost,
+      beforeEnter: AuthGuard
     },
     {
       path: '/posts/:id',

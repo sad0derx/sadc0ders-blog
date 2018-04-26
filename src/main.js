@@ -42,5 +42,11 @@ new Vue({
       projectId: 'sadc0dersblog',
       storageBucket: 'sadc0dersblog.appspot.com'
     })
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$store.dispatch('autoSignIn', user)
+      }
+    })
+    this.$store.dispatch('loadPosts')
   }
 })

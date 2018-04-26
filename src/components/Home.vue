@@ -12,9 +12,15 @@
 
     </v-layout>
 
+    <v-layout row>
+      <v-flex xs12 class="text-xs-center">
+        <v-progress-circular indeterminate color="primary" :width="7" :size="70" v-if="loading"></v-progress-circular>
+      </v-flex>
+    </v-layout>
+
     <v-layout row wrap>
 
-      <v-flex xs12 class="mt-3">
+      <v-flex xs12 class="mt-3" v-if="!loading">
         <v-carousel>
           <v-carousel-item v-for="post in posts" :src="post.imageUrl" :key="post.id">
             <div class="title">
@@ -37,6 +43,9 @@
     computed: {
       posts () {
         return this.$store.getters.featuredPosts
+      },
+      loading () {
+        return this.$store.getters.loading
       }
     },
     methods: {
