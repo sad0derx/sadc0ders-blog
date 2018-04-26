@@ -124,7 +124,6 @@ export const store = new Vuex.Store({
         error => {
           commit('setLoading', false)
           commit('setError', error)
-          console.log(error)
         }
       )
     },
@@ -146,7 +145,6 @@ export const store = new Vuex.Store({
         error => {
           commit('setLoading', false)
           commit('setError', error)
-          console.log(error)
         }
       )
     },

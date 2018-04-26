@@ -9,6 +9,7 @@ import 'vuetify/dist/vuetify.min.css'
 import { store } from './store'
 import DateFilter from './filters/date'
 import AlertCmp from './components/Shared/Alert'
+import EditPostsDialog from './components/Posts/Edit/EditPostsDialog'
 
 Vue.use(Vuetify, {
   theme: {
@@ -24,6 +25,7 @@ Vue.use(Vuetify, {
 
 Vue.filter('date', DateFilter)
 Vue.component('app-alert', AlertCmp)
+Vue.component('app-edit-post-details-dialog', EditPostsDialog)
 
 Vue.config.productionTip = false
 
